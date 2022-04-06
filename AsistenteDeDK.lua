@@ -16,7 +16,7 @@ local AL1 = {12593,12619,12842,12848,12636,12641,12657,12849,12850,12670,12678,1
 local HO2 = {12751,12754,12755,12756,12757,12778,12779,12800,12801,13165,13166,13189}
 local AL2 = {12751,12754,12755,12756,12757,12778,12779,12800,12801,13165,13166,13188}
 
-local function Click(E,P,U) P:GossipMenuAddItem(2, '¡Completar todas las misiones de DK!', 100, 1) P:GossipSendMenu(1, U, MenuId) end
+local function Click(E,P,U) P:GossipMenuAddItem(0, '¡Completar todas las misiones de DK!', 100, 1) P:GossipSendMenu(1, U, MenuId) end
 
 local function Menu(e,P,U,S,I)   local H, R, C = P:IsHorde(), P:GetRaceMask(), P:GetClassMask()   U:SendUnitSay('Completando misiones...',0)
 
