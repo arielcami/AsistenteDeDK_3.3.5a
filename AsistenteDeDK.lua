@@ -1,24 +1,13 @@
---[[    Ariel Camilo // ariel.cami@gmail.com // 6 de Marzo 2022
-
-    Este script hará que se muestren algunos textos en rojo por consola.
-    Esto es totalmente normal y no afecta en nada, esto quizá se debe a
-    algun pequeño bug en la relación Eluna/Emulador cada que se aprende una spell vía script, solo ignóralos.
+--[[    
+    Ariel Camilo // ariel.cami@gmail.com // 6 de Marzo 2022 // Revisión Agosto 2023
 ]]
 
 local Level = 80    --> Coloca el nivel que se le dará a los jugadores.
-local NpcID = 00000 --> Reemplaza 000 con el id del NPC que estará a cargo de este script.
+local NpcID = 25462 --> Reemplaza con el id del NPC que estará a cargo de este script.
+local ico = '|TInterface\\Icons\\spell_deathknight_classicon.blp:40:40:-22|t' --> Un ícono
 
-local RAZ = {
-    [1]={12742},
-    [2]={12748},
-    [4]={12744},
-    [8]={12743},
-    [16]={12750},
-    [32]={12739},
-    [64]={12745},
-    [128]={12749},
-    [512]={12747},
-    [1024]={12746}
+local RAZ = {[1]={12742}, [2]={12748}, [4]={12744}, [8]={12743}, [16]={12750}, 
+    [32]={12739}, [64]={12745}, [128]={12749}, [512]={12747}, [1024]={12746}
 }
 
 local HO1 = {12593,12619,12842,12848,12636,12641,12657,12849,12850,12670,12678,12680,12679,12733,12687,12697,
@@ -28,9 +17,9 @@ local AL1 = {12593,12619,12842,12848,12636,12641,12657,12849,12850,12670,12678,1
 local HO2 = {12751,12754,12755,12756,12757,12778,12779,12800,12801,13165,13166,13189}
 local AL2 = {12751,12754,12755,12756,12757,12778,12779,12800,12801,13165,13166,13188}
 
-local function Click(E,P,U) 
-    P:GossipMenuAddItem(0, '¡Completar todas las misiones de DK!', 100, 1) 
-    P:GossipSendMenu(1, U, MenuId)    
+local function Click(E,P,U)    
+    P:GossipMenuAddItem(0, ico..'¡Completar misiones de DK!', 100, 0) 
+    P:GossipSendMenu(1, U, 0)    
 end
 
 local function Menu(e,P,U,S,I)   
@@ -38,6 +27,10 @@ local function Menu(e,P,U,S,I)
     local H, R, C = P:IsHorde(), P:GetRaceMask(), P:GetClassMask()  
     
     U:SendUnitSay('Completando misiones...',0)
+
+    local function timed(Ev, del, rep, OB)
+        OB:SendBroadcastMessage('|cff42e6ffNo necesitas hacer más nada, continúa jugando normalmente.') 
+    end
 
     local function Quests(qq) P:AddQuest(qq) P:CompleteQuest(qq) P:RewardQuest(qq) end
     
@@ -52,7 +45,7 @@ local function Menu(e,P,U,S,I)
             end 
             P:SetLevel(Level) 
             P:AddItem(38632,1) 
-            P:SendBroadcastMessage('|cff42e6ffNo es necesario hacer más nada, continua jugando normalmente.')
+            P:RegisterEvent(timed, 1000)
         else
             U:SendUnitSay("Esta promoción no aplica para tu clase.", 0) 
             P:GossipComplete() 
